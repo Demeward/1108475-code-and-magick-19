@@ -6,33 +6,57 @@ setup.classList.remove('hidden');
 
 var wizardNames = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var wizardSurnames = ['да Марья', 'Верон', 'Мирабелла', 'Вальц ', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
+var coatColors = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+var eyesColors = ['black', 'red', 'blue', 'yellow', 'green'];
+var WIZARD_AMOUNT = 4;
 
-var wizards = [
-  {
-    name: wizardNames[Math.floor(Math.random() * wizardNames.length)] + ' ' + wizardSurnames[Math.floor(Math.random() * wizardSurnames.length)],
-    coatColor: 'rgb(241, 43, 107)',
-    eyesColor: 'yellow'
-  },
-  {
-    name: wizardNames[Math.floor(Math.random() * wizardNames.length)] + ' ' + wizardSurnames[Math.floor(Math.random() * wizardSurnames.length)],
-    coatColor: 'rgb(56, 159, 117)',
-    eyesColor: 'black'
-  },
-  {
-    name: wizardNames[Math.floor(Math.random() * wizardNames.length)] + ' ' + wizardSurnames[Math.floor(Math.random() * wizardSurnames.length)],
-    coatColor: 'rgb(0, 0, 0)',
-    eyesColor: 'red'
-  },
-  {
-    name: wizardNames[Math.floor(Math.random() * wizardNames.length)] + ' ' + wizardSurnames[Math.floor(Math.random() * wizardSurnames.length)],
-    coatColor: 'rgb(215, 210, 55)',
-    eyesColor: 'blue'
+var wizardSetup = {
+  WIZARD_NAMES: wizardNames,
+  WIZARD_SURNAMES: wizardSurnames,
+  COAT_COLORS: coatColors,
+  EYES_COLORS: eyesColors
+};
+
+/**
+ * Выбирает случаный элемент в массиве
+ *
+ * @param {Array} arr - Входной массив
+ * @return {number} Случайный элемент массива
+ */
+var getRandomElement = function (arr) {
+  return Math.floor(Math.random() * arr.length);
+};
+
+/**
+ * Генерирует магов в виде массива объектов
+ *
+ * @return {Array} Массив магов
+ */
+var generateWizards = function () {
+  var wizards = [];
+
+  for (var i = 0; i < WIZARD_AMOUNT; i++) {
+    wizards[i] = {
+      name: wizardSetup.WIZARD_NAMES[getRandomElement(wizardSetup.WIZARD_NAMES)] + ' ' + wizardSetup.WIZARD_SURNAMES[getRandomElement(wizardSetup.WIZARD_SURNAMES)],
+      coatColor: wizardSetup.COAT_COLORS[getRandomElement(wizardSetup.COAT_COLORS)],
+      eyesColor: wizardSetup.EYES_COLORS[getRandomElement(wizardSetup.EYES_COLORS)]
+    };
   }
-];
+  return wizards;
+};
+
+var wizards = generateWizards();
+
 
 var similarList = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.getElementById('similar-wizard-template').content.querySelector('.setup-similar-item');
 
+/**
+ * Задаёт на странице разметку для мага на основе шаблона и объекта данных
+ *
+ * @param {Object} wizard - Объект с данными
+ * @return {*} Разметка мага для вставки на страницу
+*/
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
 
